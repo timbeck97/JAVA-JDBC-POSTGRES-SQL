@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +29,31 @@ public class ProductDAOJDBC implements ProductDAO {
 
 	@Override
 	public void insertProduct(Product product) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+
+		try {
+			ps=conn.prepareStatement("INSERT into produto(nome, preco, id_categoria) "
+					+ "VALUES(?,?,?)",Statement.RETURN_GENERATED_KEYS);
+			
+			ps.setString(1, product.getName());
+			ps.setDouble(2, product.getPrice());
+			ps.setFloat(3, product.getCategory().getId());
+			
+			ps.executeUpdate();
+			ResultSet rs=ps.getGeneratedKeys();
+			if(rs.next()) {
+				product.setId(rs.getLong(1));
+				System.out.println("ID do novo procuto: "+rs.getLong(1));
+			}
+			else {
+				throw new DataBaseException("Erro ao inserir novo produto");
+			}
+
+		} catch (SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		} finally {
+			DatabaseConnection.closeStatement(ps);
+		}
 
 	}
 

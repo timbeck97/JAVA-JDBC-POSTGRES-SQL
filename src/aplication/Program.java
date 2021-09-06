@@ -2,6 +2,8 @@ package aplication;
 
 import dao.DaoConstructor;
 import dao.implementation.ProductDAOJDBC;
+import entities.Category;
+import entities.Product;
 
 public class Program {
 
@@ -12,7 +14,7 @@ public class Program {
 		
 		ProductDAOJDBC prod=DaoConstructor.createProductDAO();
 		
-		prod.deleteProduct(7l);
+		prod.insertProduct(new Product(null, "BERMUDA COLCCI", 160.0, new Category(3l, null)));
 		
 
 	}
