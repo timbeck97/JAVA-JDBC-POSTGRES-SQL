@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import dao.CategoryDAO;
@@ -41,8 +42,27 @@ public class CategoryDAOJDBC implements CategoryDAO {
 
 	@Override
 	public List<Category> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		List<Category> categorias=new ArrayList<>();
+		try {
+			ps=conn.prepareStatement("SELECT * from Categoria");
+			rs=ps.executeQuery();
+			while(rs.next()){
+				Long idcat=rs.getLong("id_categoria");
+				String namecat=rs.getString("nome");
+				categorias.add(new Category(idcat, namecat));
+			}
+			
+		}
+		catch(SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+		finally {
+			DatabaseConnection.closeResultSet(rs);
+			DatabaseConnection.closeStatement(ps);
+		}
+		return categorias;
 	}
 
 	@Override

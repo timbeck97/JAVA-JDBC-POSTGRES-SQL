@@ -1,5 +1,7 @@
 package aplication;
 
+import java.util.List;
+
 import dao.CategoryDAO;
 import dao.DaoConstructor;
 import entities.Category;
@@ -8,15 +10,13 @@ public class Program {
 
 	public static void main(String[] args) {
 		
-		//CODIGO ABAIXO PARA TESTAR O ACESSO AO BANCO DE DADOS
-		//TESTE DO METODO PARA BUSCAR CATEGORIA POR ID
+	
+		//TESTE DO METODO PARA BUSCAR TODAS CATEGORIAS
 		
 		CategoryDAO cat=DaoConstructor.createCategoryDAO();
 		
-		Category category=cat.findById(1l);
-		
-		System.out.println(category);
-		
+		List<Category> lista=cat.findAll();
+		lista.forEach(System.out::println);
 
 	}
 
