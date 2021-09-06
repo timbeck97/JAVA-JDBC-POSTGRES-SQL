@@ -11,12 +11,11 @@ public class Program {
 	public static void main(String[] args) {
 		
 	
-		//TESTE DO METODO PARA BUSCAR TODAS CATEGORIAS
+		//TESTE DO METODO PARA ATUALIZAR CATEGORIA
 		
 		CategoryDAO cat=DaoConstructor.createCategoryDAO();
 		
-		List<Category> lista=cat.findAll();
-		lista.forEach(System.out::println);
+		cat.updateCategory(new Category(3L, "ROUPAS"));
 
 	}
 
