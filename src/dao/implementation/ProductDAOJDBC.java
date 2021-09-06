@@ -27,20 +27,39 @@ public class ProductDAOJDBC implements ProductDAO {
 	}
 
 	@Override
-	public void insertCategory(Product category) {
+	public void insertProduct(Product product) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void deleteCategory(Long id) {
+	public void deleteProduct(Long id) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void updateCategory(Product category) {
-		// TODO Auto-generated method stub
+	public void updateProduct(Product product) {
+		PreparedStatement ps=null;
+		
+		try {
+			ps=conn.prepareStatement("UPDATE produto SET nome= ?, preco= ?, "
+					+ "id_categoria= ? WHERE id_produto= ?");
+			ps.setString(1, product.getName());
+			ps.setDouble(2, product.getPrice());
+			ps.setFloat(3, product.getCategory().getId());
+			ps.setFloat(4, product.getId());
+			
+			int linha=ps.executeUpdate();
+			System.out.println(linha!=0?"Linhas alteradas: "+linha:"Nenhuma produto alterado");
+			
+		}
+		catch(SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+		finally {
+			DatabaseConnection.closeStatement(ps);
+		}
 
 	}
 
@@ -51,7 +70,8 @@ public class ProductDAOJDBC implements ProductDAO {
 		List<Product> produtos=new ArrayList<>();
 		try {
 			ps = conn.prepareStatement(
-					"SELECT * FROM produto " + "INNER JOIN categoria ON produto.id_categoria=categoria.id_categoria;");
+					"SELECT * FROM produto " + "INNER JOIN categoria ON produto.id_categoria=categoria.id_categoria "
+							+ "order by id_produto");
 			rs = ps.executeQuery();
 			
 			Map<Long, Category> lista = new HashMap<>();

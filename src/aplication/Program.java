@@ -1,9 +1,8 @@
 package aplication;
 
-import java.util.List;
-
 import dao.DaoConstructor;
 import dao.implementation.ProductDAOJDBC;
+import entities.Category;
 import entities.Product;
 
 public class Program {
@@ -11,13 +10,11 @@ public class Program {
 	public static void main(String[] args) {
 		
 	
-		//TESTE DO METODO PARA PROCURAR TODOS PRODUTOS
+		//TESTE DO METODO PARA ATUALIZAR PRODUTOS
 		
 		ProductDAOJDBC prod=DaoConstructor.createProductDAO();
 		
-		List<Product> produtos=prod.findAll();
-		produtos.forEach(System.out::println);
-		
+		prod.updateProduct(new Product(1L, "TV SAMSUNG", 1900.0, new Category(1l, null)));
 		
 
 	}
