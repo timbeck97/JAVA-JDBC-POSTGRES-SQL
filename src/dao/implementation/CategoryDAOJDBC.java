@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,29 @@ public class CategoryDAOJDBC implements CategoryDAO {
 
 	@Override
 	public void insertCategory(Category category) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps=null;
+		try {
+			ps=conn.prepareStatement("INSERT into categoria(nome) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, category.getName());
+			
+			int linha=ps.executeUpdate();
+			if(linha!=0) {
+				ResultSet rs=ps.getGeneratedKeys();
+				if(rs.next()) {
+					category.setId(rs.getLong("id_categoria"));
+					System.out.println("Novo ID da categoria inserida: "+category.getId());
+				}
+				else {
+					throw new DataBaseException("Erro ao inserir nova categoria");
+				}
+			}		
+		}
+		catch(SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+		finally {
+			DatabaseConnection.closeStatement(ps);
+		}
 
 	}
 

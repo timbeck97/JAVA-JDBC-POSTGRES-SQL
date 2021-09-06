@@ -11,11 +11,11 @@ public class Program {
 	public static void main(String[] args) {
 		
 	
-		//TESTE DO METODO PARA ATUALIZAR CATEGORIA
+		//TESTE DO METODO PARA INSERIR CATEGORIA
 		
 		CategoryDAO cat=DaoConstructor.createCategoryDAO();
 		
-		cat.updateCategory(new Category(3L, "ROUPAS"));
+		cat.insertCategory(new Category(null, "ALIMENTOS"));
 
 	}
 
