@@ -1,5 +1,7 @@
 package aplication;
 
+import java.util.List;
+
 import dao.DaoConstructor;
 import dao.implementation.ProductDAOJDBC;
 import entities.Product;
@@ -9,12 +11,12 @@ public class Program {
 	public static void main(String[] args) {
 		
 	
-		//TESTE DO METODO PARA PROCURAR PRODUTO POR ID
+		//TESTE DO METODO PARA PROCURAR TODOS PRODUTOS
 		
 		ProductDAOJDBC prod=DaoConstructor.createProductDAO();
 		
-		Product p=prod.findById(1l);
-		System.out.println(p);
+		List<Product> produtos=prod.findAll();
+		produtos.forEach(System.out::println);
 		
 		
 
