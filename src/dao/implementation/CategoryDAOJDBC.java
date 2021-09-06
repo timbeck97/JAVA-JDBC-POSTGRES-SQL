@@ -27,27 +27,24 @@ public class CategoryDAOJDBC implements CategoryDAO {
 
 	@Override
 	public void insertCategory(Category category) {
-		PreparedStatement ps=null;
+		PreparedStatement ps = null;
 		try {
-			ps=conn.prepareStatement("INSERT into categoria(nome) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+			ps = conn.prepareStatement("INSERT into categoria(nome) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, category.getName());
-			
-			int linha=ps.executeUpdate();
-			if(linha!=0) {
-				ResultSet rs=ps.getGeneratedKeys();
-				if(rs.next()) {
+
+			int linha = ps.executeUpdate();
+			if (linha != 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				if (rs.next()) {
 					category.setId(rs.getLong("id_categoria"));
-					System.out.println("Novo ID da categoria inserida: "+category.getId());
-				}
-				else {
+					System.out.println("Novo ID da categoria inserida: " + category.getId());
+				} else {
 					throw new DataBaseException("Erro ao inserir nova categoria");
 				}
-			}		
-		}
-		catch(SQLException e) {
+			}
+		} catch (SQLException e) {
 			throw new DataBaseException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DatabaseConnection.closeStatement(ps);
 		}
 
@@ -55,7 +52,18 @@ public class CategoryDAOJDBC implements CategoryDAO {
 
 	@Override
 	public void deleteCategory(Long id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("DELETE FROM categoria WHERE id_categoria= ?");
+			ps.setFloat(1, id);
+
+			int linha = ps.executeUpdate();
+			System.out.println(linha != 0 ? "Linhas alteradas: " + linha : "Nenhum item deletado");
+		} catch (SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		} finally {
+			DatabaseConnection.closeStatement(ps);
+		}
 
 	}
 
