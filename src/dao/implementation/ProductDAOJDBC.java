@@ -34,30 +34,40 @@ public class ProductDAOJDBC implements ProductDAO {
 
 	@Override
 	public void deleteProduct(Long id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+
+		try {
+			ps = conn.prepareStatement("DELETE FROM produto WHERE id_produto= ?");
+			ps.setFloat(1, id);
+			int linha = ps.executeUpdate();
+			System.out.println(linha != 0 ? "Linhas alteradas: " + linha : "Nenhuma produto alterado");
+
+		} catch (SQLException e) {
+			throw new DataBaseException(e.getMessage());
+		} finally {
+			DatabaseConnection.closeStatement(ps);
+		}
 
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-		PreparedStatement ps=null;
-		
+		PreparedStatement ps = null;
+
 		try {
-			ps=conn.prepareStatement("UPDATE produto SET nome= ?, preco= ?, "
-					+ "id_categoria= ? WHERE id_produto= ?");
+			ps = conn
+					.prepareStatement("UPDATE produto SET nome= ?, preco= ?, " + "id_categoria= ? WHERE id_produto= ?");
 			ps.setString(1, product.getName());
 			ps.setDouble(2, product.getPrice());
 			ps.setFloat(3, product.getCategory().getId());
 			ps.setFloat(4, product.getId());
-			
-			int linha=ps.executeUpdate();
-			System.out.println(linha!=0?"Linhas alteradas: "+linha:"Nenhuma produto alterado");
-			
-		}
-		catch(SQLException e) {
+
+			int linha = ps.executeUpdate();
+			System.out.println(linha != 0 ? "Linhas alteradas: " + linha : "Nenhuma produto alterado");
+
+		} catch (SQLException e) {
 			throw new DataBaseException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DatabaseConnection.closeStatement(ps);
 		}
 
@@ -67,13 +77,12 @@ public class ProductDAOJDBC implements ProductDAO {
 	public List<Product> findAll() {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		List<Product> produtos=new ArrayList<>();
+		List<Product> produtos = new ArrayList<>();
 		try {
-			ps = conn.prepareStatement(
-					"SELECT * FROM produto " + "INNER JOIN categoria ON produto.id_categoria=categoria.id_categoria "
-							+ "order by id_produto");
+			ps = conn.prepareStatement("SELECT * FROM produto "
+					+ "INNER JOIN categoria ON produto.id_categoria=categoria.id_categoria " + "order by id_produto");
 			rs = ps.executeQuery();
-			
+
 			Map<Long, Category> lista = new HashMap<>();
 
 			while (rs.next()) {

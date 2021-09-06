@@ -27,7 +27,6 @@ public class DatabaseConnection {
 			try {
 				ps.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				throw new DataBaseException(e.getMessage());
 			}
 		}
@@ -37,7 +36,6 @@ public class DatabaseConnection {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				throw new DataBaseException(e.getMessage());
 			}
 		}
