@@ -1,21 +1,22 @@
 package aplication;
 
-import java.util.List;
-
-import dao.CategoryDAO;
 import dao.DaoConstructor;
-import entities.Category;
+import dao.implementation.ProductDAOJDBC;
+import entities.Product;
 
 public class Program {
 
 	public static void main(String[] args) {
 		
 	
-		//TESTE DO METODO PARA DELETAR CATEGORIA
+		//TESTE DO METODO PARA PROCURAR PRODUTO POR ID
 		
-		CategoryDAO cat=DaoConstructor.createCategoryDAO();
+		ProductDAOJDBC prod=DaoConstructor.createProductDAO();
 		
-		cat.deleteCategory(4L);
+		Product p=prod.findById(1l);
+		System.out.println(p);
+		
+		
 
 	}
 
